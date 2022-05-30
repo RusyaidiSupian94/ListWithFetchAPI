@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 
 class ListAPIPage extends StatefulWidget {
   const ListAPIPage({Key? key, required this.title}) : super(key: key);
@@ -9,46 +10,40 @@ class ListAPIPage extends StatefulWidget {
 }
 
 class _ListAPIPageState extends State<ListAPIPage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  var selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the ListAPIPage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+      body: PageView(
+          // physics: NeverScrollableScrollPhysics(),
+          // controller: pageController,
+          ),
+      bottomNavigationBar: WaterDropNavBar(
+        backgroundColor: Colors.black,
+        onItemSelected: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+          // pageController.animateToPage(selectedIndex,
+          //     duration: const Duration(milliseconds: 400),
+          //     curve: Curves.easeOutQuad);
+        },
+        selectedIndex: selectedIndex,
+        barItems: [
+          BarItem(
+            filledIcon: Icons.bookmark_rounded,
+            outlinedIcon: Icons.bookmark_border_rounded,
+          ),
+          BarItem(
+              filledIcon: Icons.favorite_rounded,
+              outlinedIcon: Icons.favorite_border_rounded),
+          BarItem(
+              filledIcon: Icons.access_alarm,
+              outlinedIcon: Icons.access_alarm_sharp)
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Decreased',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
